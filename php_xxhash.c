@@ -31,13 +31,14 @@ PHP_FUNCTION(xxhash32)
     size_t arg_len, len;
     zend_string *strg;
 	unsigned int sum;
+	unsigned long long seed;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &arg, &arg_len) == FAILURE || arg_len < 1) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s|l", &arg, &arg_len, &seed) == FAILURE || arg_len < 1) {
         return;
     }
 
 	// compute the checksum
-	sum = XXH32(arg, arg_len, 0);
+	sum = XXH32(arg, arg_len, (unsigned)seed);
 
 	//convert to a hex string
 	strg = strpprintf(0, "%08x", sum);
@@ -52,13 +53,14 @@ PHP_FUNCTION(xxhash64)
     size_t arg_len, len;
     zend_string *strg;
 	unsigned long long sum;
+	unsigned long long seed;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &arg, &arg_len) == FAILURE || arg_len < 1) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s|l", &arg, &arg_len, &seed) == FAILURE || arg_len < 1) {
         return;
     }
 
 	// compute the checksum
-	sum = XXH64(arg, arg_len, 0);
+	sum = XXH64(arg, arg_len, seed);
 
 	//convert to a hex string
 	strg = strpprintf(0, "%08x%08x", (U32)(sum >> 32), (U32)sum);

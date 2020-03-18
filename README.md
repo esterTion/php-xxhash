@@ -24,9 +24,9 @@ Don't forget to load the extension in via php.ini or the like.
 
 Upon installation and enabling the extension within php.ini the following two new functions will be available to you:
 
-```
-string xxhash32(string $data);
-string xxhash64(string $data);
+```PHP
+string xxhash32(string $data[, int $seed]);
+string xxhash64(string $data[, int $seed]);
 ```
 
 In both cases a string will be returned, representing the digest (hash) of the $data input.
