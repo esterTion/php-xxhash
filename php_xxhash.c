@@ -32,8 +32,9 @@ PHP_FUNCTION(xxhash32)
     zend_string *strg;
 	unsigned int sum;
 	unsigned long long seed;
+	unsigned char return_int = 0;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s|l", &arg, &arg_len, &seed) == FAILURE || arg_len < 1) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s|lb", &arg, &arg_len, &seed, &return_int) == FAILURE || arg_len < 1) {
         return;
     }
 
@@ -41,7 +42,11 @@ PHP_FUNCTION(xxhash32)
 	sum = XXH32(arg, arg_len, (unsigned)seed);
 
 	//convert to a hex string
-	strg = strpprintf(0, "%08x", sum);
+	if (return_int) {
+		strg = strpprintf(0, "%lu", sum);
+	} else {
+		strg = strpprintf(0, "%08x", sum);
+	}
 
 	// return the checksum
 	RETURN_STR(strg);
@@ -54,8 +59,9 @@ PHP_FUNCTION(xxhash64)
     zend_string *strg;
 	unsigned long long sum;
 	unsigned long long seed;
+	unsigned char return_int = 0;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s|l", &arg, &arg_len, &seed) == FAILURE || arg_len < 1) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s|lb", &arg, &arg_len, &seed, &return_int) == FAILURE || arg_len < 1) {
         return;
     }
 
@@ -63,7 +69,11 @@ PHP_FUNCTION(xxhash64)
 	sum = XXH64(arg, arg_len, seed);
 
 	//convert to a hex string
-	strg = strpprintf(0, "%08x%08x", (U32)(sum >> 32), (U32)sum);
+	if (return_int) {
+		strg = strpprintf(0, "%llu", sum);
+	} else {
+		strg = strpprintf(0, "%08x%08x", (U32)(sum >> 32), (U32)sum);
+	}
 
 	// return the checksum
 	RETURN_STR(strg);

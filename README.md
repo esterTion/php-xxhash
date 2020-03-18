@@ -25,11 +25,12 @@ Don't forget to load the extension in via php.ini or the like.
 Upon installation and enabling the extension within php.ini the following two new functions will be available to you:
 
 ```PHP
-string xxhash32(string $data[, int $seed]);
-string xxhash64(string $data[, int $seed]);
+string xxhash64(string $data[, int $seed[, bool $return_as_decimal]]);
+string xxhash32(string $data[, int $seed[, bool $return_as_decimal]]);
 ```
 
-In both cases a string will be returned, representing the digest (hash) of the $data input.
+In both cases a string will be returned, representing the digest (hash) of the $data input.  
+When `$return_as_decimal` is `true`, return decimal string instead of hexadecimal.  
 
 
 ## Credits
